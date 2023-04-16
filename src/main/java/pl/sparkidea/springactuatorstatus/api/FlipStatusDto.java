@@ -3,11 +3,10 @@ package pl.sparkidea.springactuatorstatus.api;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.actuate.health.Status;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
-public class FlipStatusDto extends RepresentationModel<FlipStatusDto> {
+public class FlipStatusDto {
 
     @JsonProperty("status")
     private final Status status;
@@ -17,8 +16,8 @@ public class FlipStatusDto extends RepresentationModel<FlipStatusDto> {
         this.status = status;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getStatus() {
+        return status.getCode();
     }
 
     @Override

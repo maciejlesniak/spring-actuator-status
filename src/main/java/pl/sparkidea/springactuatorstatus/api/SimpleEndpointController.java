@@ -1,5 +1,8 @@
 package pl.sparkidea.springactuatorstatus.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,15 +21,20 @@ public class SimpleEndpointController {
         this.service = service;
     }
 
+    @Operation(summary = "Changes working status to the next status on the list")
+    @ApiResponse(responseCode = "200", description = "A status after the change")
     @PatchMapping("/status")
-    FlipStatusDto flipWorkingStatus() {
+    EntityModel<FlipStatusDto> flipWorkingStatus() {
         Link selfLink = linkTo(methodOn(SimpleEndpointController.class).flipWorkingStatus()).withSelfRel();
-        return new FlipStatusDto(service.toggleFlip()).add(selfLink);
+        return EntityModel.of(new FlipStatusDto(service.toggleFlip())).add(selfLink);
     }
 
+    @Operation(summary = "Get information about current working status")
+    @ApiResponse(responseCode = "200", description = "A current status")
     @GetMapping("/status")
-    FlipStatusDto currentStatus() {
+    EntityModel<FlipStatusDto> currentStatus() {
         Link selfLink = linkTo(methodOn(SimpleEndpointController.class).currentStatus()).withSelfRel();
-        return new FlipStatusDto(service.getCurrentStatus()).add(selfLink);
+        return EntityModel.of(new FlipStatusDto(service.getCurrentStatus())).add(selfLink);
     }
+
 }

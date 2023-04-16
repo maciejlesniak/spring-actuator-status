@@ -3,3 +3,5 @@ management:
     health:
       enabled: true
       show-details: always
+springdoc:
+  show-actuator: true
